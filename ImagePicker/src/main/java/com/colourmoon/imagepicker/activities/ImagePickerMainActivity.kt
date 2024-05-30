@@ -21,7 +21,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.colourmoon.imagepicker.utils.CAMERA
-import com.colourmoon.imagepicker.utils.COMPRESSION_PERCENTAGE
 import com.colourmoon.imagepicker.utils.FILE_PATH
 import com.colourmoon.imagepicker.utils.GALLERY
 import com.colourmoon.imagepicker.utils.RESULT_IMAGE_FILE
@@ -115,7 +114,7 @@ class ImagePickerMainActivity : AppCompatActivity() {
                         cropImage(path)
                     } else {
                         val resultIntent = Intent()
-                        if (wantCompress ) {
+                        if (wantCompress) {
                             CoroutineScope(Dispatchers.IO).launch {
                                 try {
                                     val compressedFile =
@@ -194,7 +193,7 @@ class ImagePickerMainActivity : AppCompatActivity() {
 
 
     private fun cropImage(filePath: String) {
-        if (wantCompress ) {
+        if (wantCompress) {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     val compressedFile =
@@ -202,14 +201,22 @@ class ImagePickerMainActivity : AppCompatActivity() {
                             File(filePath)
                         )
                     if (compressedFile.exists()) {
-                        startForResult.launch(Intent(this@ImagePickerMainActivity, CroppingActivity::class.java).also {
-                            it.putExtra(FILE_PATH,  compressedFile.absolutePath)
-                        })
+                        startForResult.launch(
+                            Intent(
+                                this@ImagePickerMainActivity,
+                                CroppingActivity::class.java
+                            ).also {
+                                it.putExtra(FILE_PATH, compressedFile.absolutePath)
+                            })
                     }
                 } catch (_: Exception) {
-                    startForResult.launch(Intent(this@ImagePickerMainActivity, CroppingActivity::class.java).also {
-                        it.putExtra(FILE_PATH, filePath)
-                    })
+                    startForResult.launch(
+                        Intent(
+                            this@ImagePickerMainActivity,
+                            CroppingActivity::class.java
+                        ).also {
+                            it.putExtra(FILE_PATH, filePath)
+                        })
                 }
             }
         } else {
@@ -315,7 +322,7 @@ class ImagePickerMainActivity : AppCompatActivity() {
                         cropImage(path)
                     } else {
                         val resultIntent = Intent()
-                        if (wantCompress ) {
+                        if (wantCompress) {
                             CoroutineScope(Dispatchers.IO).launch {
                                 try {
                                     val compressedFile =
@@ -366,7 +373,7 @@ class ImagePickerMainActivity : AppCompatActivity() {
     }
 
 
-    private suspend fun compress( bitmap: File): File {
+    private suspend fun compress(bitmap: File): File {
 
         val job = CoroutineScope(Dispatchers.IO).async {
             Compressor.compress(this@ImagePickerMainActivity, bitmap)

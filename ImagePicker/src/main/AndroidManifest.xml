@@ -21,7 +21,9 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
-    <application>
+    <application
+        android:requestLegacyExternalStorage="true">
+
         <activity
             android:name="com.colourmoon.imagepicker.activities.CroppingActivity"
             android:exported="false" />
